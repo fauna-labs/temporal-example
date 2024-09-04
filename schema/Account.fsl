@@ -1,0 +1,10 @@
+collection Account {
+  balance: Number
+  cardNumber: String
+
+  unique [.cardNumber]
+
+  owner: Ref<User>
+
+  check balanceValid (account => account.balance >= 0)
+}

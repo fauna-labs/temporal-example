@@ -1,0 +1,21 @@
+collection User {
+  name: String
+  email: String
+
+  address: {
+    street: String,
+    city: String,
+    state: String,
+    postalCode: String,
+    country: String
+  }
+
+  unique [.email]
+
+  primaryAccount: Ref<Account>
+  secondaryAccount: Ref<Account>
+
+  index byEmail {
+    terms [.email]
+  }
+}

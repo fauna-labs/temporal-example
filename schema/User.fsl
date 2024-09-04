@@ -12,8 +12,8 @@ collection User {
 
   unique [.email]
 
-  primaryAccount: Ref<Account>
-  secondaryAccount: Ref<Account>
+  primaryAccount: Ref<Account>?
+  secondaryAccount: Ref<Account>?
 
   index byEmail {
     terms [.email]

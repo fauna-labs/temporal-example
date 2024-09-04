@@ -1,6 +1,12 @@
 import { Connection, WorkflowClient } from '@temporalio/client';
 import { spendingWorkflow } from './workflows/spendingWorkflow';
 
+export type TransactionType = {
+  id: number;
+  description: string;
+  amount: number;
+}
+
 async function run() {
   // Step 1: Establish a connection to the Temporal server
   const connection = await Connection.connect({
@@ -13,15 +19,17 @@ async function run() {
   });
 
   // Step 3: Define some transactions (example data)
-  const transactions = [
-    { id: 1, description: 'Groceries', amount: 50 },
-    { id: 2, description: 'Restaurant', amount: 30 },
-    { id: 3, description: 'Transport', amount: 20 },
+  const transactions: TransactionType[] = [
+    { id: 111, description: 'Groceries', amount: 50 },
+    { id: 222, description: 'Restaurant', amount: 30 },
+    { id: 333, description: 'Transport', amount: 20 },
   ];
+
+  const userId = '408073692904423501';
 
   // Step 4: Start the workflow
   const handle = await client.start(spendingWorkflow, {
-    args: [transactions], // Pass the transactions array to the workflow
+    args: [transactions, userId], // Pass the transactions array to the workflow
     taskQueue: 'spending-tracker-task-queue', // Ensure it matches the task queue in the worker
     workflowId: 'spending-workflow-001', // Optional unique ID for the workflow
   });
